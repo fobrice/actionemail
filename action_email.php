@@ -53,10 +53,16 @@ EOT;
 
 }
 
-add_shortcode('actionemail_data', 'form_actionemail_data' );
-add_shortcode('actionemail', 'form_actionemail' );
+if( is_admin() ) {
+    include( plugin_dir_path( __FILE__ ) . 'options.php');
+    $my_settings_page = new EmailActionSettingsPage();
+}
+else {
+  add_shortcode('actionemail_data', 'form_actionemail_data' );
+  add_shortcode('actionemail', 'form_actionemail' );
 
-wp_enqueue_script( 'action_email_script', plugin_dir_url( __FILE__ ) . 'www/action_email.js' );
-wp_register_style('action_email_style', plugin_dir_url(__FILE__ ) . 'www/action_email.css');
-wp_enqueue_style('action_email_style');
-include 'options.php'
+  wp_enqueue_script( 'action_email_script', plugin_dir_url( __FILE__ ) . 'www/action_email.js' );
+  wp_register_style('action_email_style', plugin_dir_url(__FILE__ ) . 'www/action_email.css');
+  wp_enqueue_style('action_email_style');
+  
+}
