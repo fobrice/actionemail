@@ -12,12 +12,18 @@
  * @package         ActionEmail
  */
 
-/**
- * My Plugin class
- */
-class My_Plugin {
 
+function form_actionemail_data($atts, $content='') {
+   $result="<script>var actionemail_data={";
 
+   foreach(explode("\n", $content) as $line) {
+     list($name, $email, $contact_name) = explode(",", $line);
+     if ($name != "<br />" and $name != "") {
+       $result .= "'{$name}':{'email': '{$email}', 'contact_name':'{$contact_name}' },";
+     }
+   }
+   $result .= "};</script>";
+   return $result;
 }
 
 function form_actionemail($atts, $content='') {
@@ -28,21 +34,28 @@ function form_actionemail($atts, $content='') {
     ), $atts);
 
    $form_html= <<< EOT
+
+<div class="action_form action_{$atts['name']}"
+<form><label>Ton Nom:</label><input id="{$atts['name']}_nom" type="text" />
+<label>Le message qui sera envoyé:</label>
+<textarea id="{$atts['name']}_content_email">{$content}</textarea>
+<select id="{$atts['name']}_contact"></select></form><script type="text/javascript" src="/scripts/action_email.js"></script>
+<span id="{$atts['name']}_providers"></span>
+</div>
 <script>
 var context="{$atts['name']}";
 var bcc="{$atts['bcc']}";
+init_action_email();
 </script>
-
-<form>Ton Nom:<input id="{$atts['name']}_nom" type="text" />
-<select id="{$atts['name']}_mairies"></select></form><script type="text/javascript" src="/scripts/action_email.js"></script>
-<span id="{$atts['name']}_providers"></span>
-<span id="{$atts['name']}_content_email">{$content}</span>
-<script>init_action_email();</script>
 EOT;
 
    return $form_html;
 
 }
 
+add_shortcode('actionemail_data', 'form_actionemail_data' );
 add_shortcode('actionemail', 'form_actionemail' );
-wp_enqueue_script( 'action_email', plugin_dir_url( __FILE__ ) . 'action_email/action_email.js' );
+
+wp_enqueue_script( 'action_email_script', plugin_dir_url( __FILE__ ) . 'action_email/action_email.js' );
+wp_register_style('action_email_style', plugin_dir_url(__FILE__ ) . 'action_email/action_email.css');
+wp_enqueue_style('action_email_style');
