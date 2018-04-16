@@ -21,6 +21,11 @@ MESSAGE TEMPLATE TO SEND TO TARGET
 [/form_actionemail]
 ```
 
+* options:
+  * `name`: uniq name used to identify the email action
+  * `bcc`: email address to send a copy
+  * `select_target` (0/1) [optionnal]: to display a select input to chose the target
+
 ### example
 
 ```
