@@ -15,6 +15,7 @@ var email_provider = {
 
 };
 
+
 var htmlDecode = function(input) {
    var e = document.createElement('div');
    e.innerHTML = input;
@@ -47,25 +48,42 @@ function chargerContacts() {
 
 function init_action_email() {
    chargerProviders();
-   chargerContacts();
+   if (document.getElementById(context+"_contact"))
+      chargerContacts();
+}
+
+function generateText() {
+  var email_tpl = document.getElementById(context+"_content_email_template").value;
+  var obj_email_txt = document.getElementById(context+"_content_email");
+  var text_raw = email_tpl;
+
+  if (document.getElementById(context+"_contact")) {
+    var selected = document.getElementById(context+"_contact").value;
+    var contact_name = actionemail_data[selected]["contact_name"];
+    var text_raw = text_raw.replace("@NOMCONTACT@",contact_name);
+  }
+
+  var ton_nom = document.getElementById(context+"_nom").value;
+  var text_raw = text_raw.replace("@TONNOM@", ton_nom);
+  obj_email_txt.value = text_raw;
 }
 
 function generateLink(emailtype) {
-   var selected = document.getElementById(context+"_contact").value;
-   var contact_name = actionemail_data[selected]["contact_name"];
-   var ton_nom = document.getElementById(context+"_nom").value;
-   console.log("SELECTED="+selected);
+  if (document.getElementById(context+"_contact")) {
+    var selected = document.getElementById(context+"_contact").value;
+  }
+  else {
+    selected=Object.keys(actionemail_data)[0];
+  }
+  var content_email = document.getElementById(context+"_content_email").value;
 
-   var content_email = document.getElementById(context+"_content_email").innerHTML;
-   console.log(context+"_content_email");
-   console.log(content_email.innerHTML);
-   return 1;
-   var text_raw = htmlDecode(content_email).replace("@NOMCONTACT@",contact_name).replace("@TONNOM@", ton_nom);
-   var subject = encodeURIComponent(htmlDecode(content_email));
+   console.log(content_email.value);
+
+   var subject = encodeURIComponent(document.getElementById(context+"_subject").value);
 
    var baseurl=email_provider[emailtype]["baseurl"];
    var to = actionemail_data[selected]["email"];
-   var body = encodeURIComponent(text_raw.replace(/<[^>]+>/g, ''));
+   var body = encodeURIComponent(content_email);
 
    var args=["bcc="+bcc,"subject="+subject,"body="+body].join("&");
    if ( emailtype == "gmail" ) {

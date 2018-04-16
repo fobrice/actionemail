@@ -16,10 +16,14 @@
 function form_actionemail_data($atts, $content='') {
    $result="<script>var actionemail_data={";
 
-   foreach(explode("\n", $content) as $line) {
-     list($name, $email, $contact_name) = explode(",", $line);
-     if ($name != "<br />" and $name != "") {
-       $result .= "'{$name}':{'email': '{$email}', 'contact_name':'{$contact_name}' },";
+   foreach(explode("\n", $content) as $key=>$line) {
+     $line_trim = strip_tags($line);
+     if ($line_trim != "") {
+       list($name, $contact_name, $email) = explode(",", $line_trim);
+       if ($key > 1 ) {
+         $result .= ",";
+       }
+       $result .= "'{$name}':{'email': '{$email}', 'contact_name':'{$contact_name}' }";
      }
    }
    $result .= "};</script>";
@@ -30,17 +34,24 @@ function form_actionemail($atts, $content='') {
 
   $atts = shortcode_atts(array(
         'name' => 'unknown',
-        'bcc' => 'contact@animalsace.org'
+        'bcc' => 'contact@animalsace.org',
+        'subject' => "test",
+        'select_target' => 1,
     ), $atts);
 
+   $content_txt = strip_tags($content);
    $form_html= <<< EOT
-
 <div class="action_form action_{$atts['name']}"
-<form><label>Ton Nom:</label><input id="{$atts['name']}_nom" type="text" />
+<form><label>Ton Nom:</label><input id="{$atts['name']}_nom" type="text" onkeyup="Javascript:generateText();"/>
+<label>Sujet:</label><input id="{$atts['name']}_subject" type="text" value="{$atts['subject']}"/>
 <label>Le message qui sera envoyé:</label>
-<textarea id="{$atts['name']}_content_email">{$content}</textarea>
-<select id="{$atts['name']}_contact"></select></form><script type="text/javascript" src="/scripts/action_email.js"></script>
+<textarea id="{$atts['name']}_content_email"  rows=10></textarea>
+EOT;
+if ($select_targe )
+  $form_html.="<select id=\"{$atts['name']}_contact\"></select></form>";
+$form_html.= <<< EOT
 <span id="{$atts['name']}_providers"></span>
+<textarea id="{$atts['name']}_content_email_template" class="action_email_data">{$content_txt}</textarea>
 </div>
 <script>
 var context="{$atts['name']}";
@@ -64,5 +75,5 @@ else {
   wp_enqueue_script( 'action_email_script', plugin_dir_url( __FILE__ ) . 'www/action_email.js' );
   wp_register_style('action_email_style', plugin_dir_url(__FILE__ ) . 'www/action_email.css');
   wp_enqueue_style('action_email_style');
-  
+
 }

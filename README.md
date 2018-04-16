@@ -24,7 +24,9 @@ MESSAGE TEMPLATE TO SEND TO TARGET
 * options:
   * `name`: uniq name used to identify the email action
   * `bcc`: email address to send a copy
+  * `subject`: subject of the email
   * `select_target` (0/1) [optionnal]: to display a select input to chose the target
+
 
 ### example
 
@@ -37,7 +39,7 @@ New York,mayor@new-york.gov.us,Mr Mansion
 
 [form_actionemail]
 @NOMCONTACT@,
-   Nous souhaiterions attirer votre attention sur 
+   Nous souhaiterions attirer votre attention sur
 --
 @TONNOM@
 [/form_actionemail]
@@ -46,4 +48,3 @@ New York,mayor@new-york.gov.us,Mr Mansion
 * template accept those values:
  * `@NOMCONTACT@` will be replaced by CONTACT_NAME
  * `@TONNOM`: replaced by text in the `name` input box
-

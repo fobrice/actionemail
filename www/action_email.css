@@ -11,14 +11,15 @@
 
     font-weight: bold;
 }
-.action_starbucks input[type="text"], .action_starbucks textarea {
+.action_email input[type="text"], .action_email textarea {
 
-    border: 0.5em solid #00ac8eff;
+  border: 0.5em solid #eaeaea ;
 	background-color: rgb(242, 242, 242);
-	border-color: #eaeaea !important;
-    padding: 25px;
-    margin: 25px;
+
+    width: 75%;
     text-align: left;
 	  padding: 1em 1em 1em 1em;
 
 }
+
+.action_email_data {display: None;}
