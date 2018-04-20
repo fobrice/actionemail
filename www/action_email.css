@@ -1,10 +1,11 @@
 .action_form {
 
-    border: 0.5em solid #eaeaea ;
+    border: 0.4em solid #eaeaea ;
     padding: 25px;
     margin: 1em 1em 1em 1em ;
-	  padding: 1em 1em 1em 1em;
+	  padding: 0.5em 0.5em 0.5em 0.5em;
     text-align: left;
+    width: 75%;
 }
 
 .action_starbucks label {
@@ -20,6 +21,15 @@
     text-align: left;
 	  padding: 1em 1em 1em 1em;
 
+}
+.action_starbucks .provider {
+  display: inline-block;
+  margin: 0.1em 0.1em 0.1em 0.1em;
+
+}
+.action_starbucks .provider a {
+  border-bottom: 0.5em solid #eaeaea;
+  cursor: default;
 }
 
 .action_email_data {display: None;}

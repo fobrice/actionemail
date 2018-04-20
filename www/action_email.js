@@ -3,15 +3,22 @@ var email_provider = {
    "baseurl": "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=",
    "subject": "su"
  },
- "laposte": {
-   "baseurl":"https://webmail.laposte.net/mail?view=compose&to="
- },
  "yahoo": {
     "baseurl":"http://compose.mail.yahoo.com/?to="
  },
+ "laposte": {
+   "baseurl":"https://webmail.laposte.net/mail?view=compose&to="
+ },
  "thunderbird": {
     "baseurl":"mailto:"
+ },
+ "outlook": {
+    "baseurl":"mailto:"
+ },
+ "logiciel de courriel": {
+    "baseurl":"mailto:"
  }
+
 
 };
 
@@ -29,7 +36,7 @@ function chargerProviders(){
   var size = keys.length;
   for (i=0; i < size; i++) {
      key=keys[i];
-     o_providers.innerHTML+="<div><a onClick=\"Javascript:generateLink('"+key+"');\">"+key+"</a></div>";
+     o_providers.innerHTML+="<div class=\"provider\"><a onClick=\"Javascript:generateLink('"+key+"');\">"+key+"</a></div>";
   }
 }
 
