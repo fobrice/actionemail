@@ -37,18 +37,21 @@ function form_actionemail($atts, $content='') {
         'bcc' => 'contact@animalsace.org',
         'subject' => "test",
         'select_target' => 1,
+        'subscribe' => 0,
     ), $atts);
 
    $content_txt = strip_tags($content);
    $form_html= <<< EOT
 <div class="action_form action_{$atts['name']}"
-<form><label>Votre prénom et nom :</label><input id="{$atts['name']}_nom" type="text" onkeyup="Javascript:generateText();"/>
+<label>Votre prénom et nom :</label><input id="{$atts['name']}_nom" type="text" onkeyup="Javascript:generateText();"/>
 <label>Sujet:</label><input id="{$atts['name']}_subject" type="text" value="{$atts['subject']}"/>
 <label>Le message qui sera envoyé :</label>
 <textarea id="{$atts['name']}_content_email"  rows=10></textarea>
 EOT;
-if ($select_targe )
-  $form_html.="<select id=\"{$atts['name']}_contact\"></select></form>";
+if ($atts['select_target'] )
+  $form_html.="<select id=\"{$atts['name']}_contact\"></select>";
+if ($atts['subscribe'])
+  $form_html.="<span><label>m'abonner à la newsletter</label><input type=\"checkbox\" id=\"{$atts['name']}_subscribe\"></span>";
 $form_html.= <<< EOT
 <label>Envoyez votre message avec :</label>
 <span id="{$atts['name']}_providers"></span>

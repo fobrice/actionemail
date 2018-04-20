@@ -80,6 +80,13 @@ function generateText() {
 }
 
 function generateLink(emailtype) {
+
+  var subscribe=false;
+  if (document.getElementById(context+"_subscribe")) {
+    var subscribe = document.getElementById(context+"_subscribe").checked;
+    console.log(subscribe);
+  }
+
   if (document.getElementById(context+"_contact")) {
     var selected = document.getElementById(context+"_contact").value;
   }
@@ -89,15 +96,19 @@ function generateLink(emailtype) {
   var content_email = document.getElementById(context+"_content_email").value;
   if (content_email == "") { return false;}
 
-   console.log(content_email.value);
-
    var subject = encodeURIComponent(document.getElementById(context+"_subject").value);
 
+   /* tags */
+   var tags="%2B"+context;
+   if (subscribe) {
+     tags += "%2Bsubscribe";
+   }
    var baseurl=email_provider[emailtype]["baseurl"];
    var to = actionemail_data[selected]["email"];
    var body = encodeURIComponent(content_email);
 
-   var args=["bcc="+bcc,"subject="+subject,"body="+body].join("&");
+   console.log(bcc);
+   var args=["bcc="+bcc.replace("@",tags+"@"),"subject="+subject,"body="+body].join("&");
    if ( emailtype == "gmail" ) {
       args  = args.replace("&subject=","&su=");
    }

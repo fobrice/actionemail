@@ -32,4 +32,8 @@
   cursor: default;
 }
 
+.action_starbucks span {
+  display: block;
+}
+
 .action_email_data {display: None;}
