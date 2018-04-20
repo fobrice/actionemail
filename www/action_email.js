@@ -71,6 +71,10 @@ function generateText() {
   }
 
   var ton_nom = document.getElementById(context+"_nom").value;
+  if (ton_nom == "") {
+    obj_email_txt.value="";
+    return false;
+  }
   var text_raw = text_raw.replace("@TONNOM@", ton_nom);
   obj_email_txt.value = text_raw;
 }
@@ -83,6 +87,7 @@ function generateLink(emailtype) {
     selected=Object.keys(actionemail_data)[0];
   }
   var content_email = document.getElementById(context+"_content_email").value;
+  if (content_email == "") { return false;}
 
    console.log(content_email.value);
 
